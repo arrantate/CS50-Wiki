@@ -63,11 +63,11 @@ button {
   margin: 2rem 0;
 }
 
-#new-page-form label {
+form label {
   display: block;
   margin-top: 2rem;
 }
-#new-page-form textarea {
+form textarea {
   display: block;
   height: 20rem;
 }
