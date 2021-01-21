@@ -7,7 +7,7 @@ class Entry():
     def __init__(self, filename):
         self.url = filename
         self.name = filename.replace("_", " ")
-        self.lower = self.name.lower()
+        self.lower_case = self.name.lower()
 
 
 def list_entries():

@@ -42,8 +42,13 @@ def new_entry(request):
         if form.is_valid():
             title = form.cleaned_data.get('title')
             title_underscore = title.replace(" ", "_")
-            content = form.cleaned_data.get('content')
+            existing_entries = [entry.lower_case for entry in util.list_entries()]
+            
+            if title.lower() in existing_entries:
+                messages.error(request, f'A page already exists for {title}')
+                return redirect('new_entry')
 
+            content = form.cleaned_data.get('content')
             util.save_entry(title_underscore, content)
 
             messages.success(request, f'New page created for {title}')
