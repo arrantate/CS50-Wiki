@@ -87,7 +87,8 @@ def detail_page(request, page_title):
 def search(request):
     query = request.POST['query']
     entries = util.list_entries()
-    match = [entry for entry in entries if entry.lower() == query.lower()]
+    
+    match = [entry for entry in entries if query.lower() == entry.lower()]
     if len(match) > 0:
         return redirect('detail_page', page_title=match[0])
 
