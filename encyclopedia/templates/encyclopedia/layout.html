@@ -22,7 +22,9 @@
             </div>
             <div class="main col-lg-10 col-md-9">
                 {% for message in messages %}
-                    {{ message }}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
                 {% endfor %}
                 {% block body %}
                 {% endblock %}

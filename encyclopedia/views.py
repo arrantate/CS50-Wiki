@@ -14,6 +14,26 @@ def index(request):
     return render(request, "encyclopedia/index.html", context)
 
 
+def detail_page(request, page_title):
+    entry = util.get_entry(page_title)
+    if entry == None:
+        return HttpResponse('No such entry')
+    
+    html = markdown(entry)
+
+    context = {
+        'title': page_title.replace("_", " "),
+        'entry': html,
+    }
+    return render(request, "encyclopedia/detail.html", context)
+
+
+def random_page(request):
+    random_page = random.choice(util.list_entries()).url
+    
+    return redirect(f"/wiki/{random_page}")
+
+
 def new_entry(request):
     form = forms.NewEntry
 
@@ -35,21 +55,5 @@ def new_entry(request):
     return render(request, "encyclopedia/new_entry.html", context)
 
 
-def random_page(request):
-    random_page = random.choice(util.list_entries())
-    
-    return redirect(f"/wiki/{random_page}")
 
 
-def detail_page(request, page_title):
-    entry = util.get_entry(page_title)
-    if entry == None:
-        return HttpResponse('No such entry')
-    
-    html = markdown(entry)
-
-    context = {
-        'title': page_title,
-        'entry': html,
-    }
-    return render(request, "encyclopedia/detail.html", context)
