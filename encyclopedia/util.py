@@ -3,23 +3,14 @@ import re
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 
-class Entry():
-    def __init__(self, filename):
-        self.url = filename
-        self.name = filename.replace("_", " ")
-        self.lower_case = self.name.lower()
-
 
 def list_entries():
     """
     Returns a list of all names of encyclopedia entries.
     """
     _, filenames = default_storage.listdir("entries")
-    entry_list = list(sorted(re.sub(r"\.md$", "", filename)
+    return list(sorted(re.sub(r"\.md$", "", filename)
                 for filename in filenames if filename.endswith(".md")))
-    entry_objects = [Entry(entry) for entry in entry_list]
-
-    return entry_objects
 
 
 def save_entry(title, content):
