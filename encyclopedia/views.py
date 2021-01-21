@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.contrib import messages
 
 import random
 from markdown2 import markdown
@@ -14,6 +15,20 @@ def index(request):
 
 
 def new_entry(request):
+    form = forms.NewEntry
+
+    if request.method == "POST":
+        form = forms.NewEntry(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            title_underscore = title.replace(" ", "_")
+            content = form.cleaned_data.get('content')
+
+            util.save_entry(title_underscore, content)
+
+            messages.success(request, f'New page created for {title}')
+            return redirect('detail_page', page_title=title_underscore)
+
     context = {
         'form': forms.NewEntry()
     }
@@ -21,8 +36,9 @@ def new_entry(request):
 
 
 def random_page(request):
-    random_wiki = random.choice(util.list_entries())
-    return redirect(f"/wiki/{random_wiki}")
+    random_page = random.choice(util.list_entries())
+    
+    return redirect(f"/wiki/{random_page}")
 
 
 def detail_page(request, page_title):

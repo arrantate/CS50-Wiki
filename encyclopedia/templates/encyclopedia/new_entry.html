@@ -7,7 +7,7 @@
 {% block body %}
     <h1>New Wiki Page</h1>
     <hr>
-    <form id="new-page-form">
+    <form id="new-page-form" method="POST">
         {% csrf_token %}
         <label for="title">{{ form.title.label }}</label>
         <input type="text" name="title">

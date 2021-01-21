@@ -21,6 +21,9 @@
                 <a href="{% url 'random_page' %}">Random Page</a>
             </div>
             <div class="main col-lg-10 col-md-9">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
                 {% block body %}
                 {% endblock %}
             </div>
