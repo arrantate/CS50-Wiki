@@ -15,9 +15,9 @@ def index(request):
 
 
 def random_page(request):
-    random_page = random.choice(util.list_entries()).url
+    random_page = random.choice(util.list_entries())
     
-    return redirect(f"/wiki/{random_page}")
+    return redirect("detail_page", page_title=random_page)
 
 
 def new_entry(request):
@@ -58,7 +58,7 @@ def edit_entry(request, page_title):
             content = form.cleaned_data.get('content')
 
             util.save_entry(title, content)
-            messages.success(request, f'Changes saved to {title}')
+            message.success(request, f'Changes saved to {title}')
 
             return redirect('detail_page', page_title=page_title)
 
@@ -84,3 +84,17 @@ def detail_page(request, page_title):
     return render(request, "encyclopedia/detail.html", context)
 
 
+def search(request):
+    query = request.POST['query']
+    entries = util.list_entries()
+    match = [entry for entry in entries if entry.lower() == query.lower()]
+    if len(match) > 0:
+        return redirect('detail_page', page_title=match[0])
+
+    partial_matches = [entry for entry in entries if query.lower() in entry.lower()]
+    context = {
+        'title': 'Search results...',
+        'query': query,
+        'partial_matches': partial_matches,
+    }
+    return render(request, "encyclopedia/search.html", context)

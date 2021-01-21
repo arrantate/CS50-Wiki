@@ -1,0 +1,22 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block body %}
+    <h1>Search results for: {{ query }}</h1>
+    <hr>
+    <ul>
+        {% if partial_matches %}
+            {% for match in partial_matches %}
+                <li>
+                    <a href="{% url 'detail_page' match %}">{{ match }}</a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <p>There were no matches found for "{{ query }}"...</p>
+        {% endif %}
+    </ul>
+
+{% endblock %}
