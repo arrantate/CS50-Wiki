@@ -9,7 +9,11 @@
 
     <ul>
         {% for entry in entries %}
-            <li>{{ entry }}</li>
+            <li>
+                <a href="{% url 'detail_page' entry %}">
+                    {{ entry }}
+                </a>
+            </li>
         {% endfor %}
     </ul>
 

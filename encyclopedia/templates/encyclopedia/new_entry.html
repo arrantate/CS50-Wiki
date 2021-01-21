@@ -1,0 +1,20 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    New Wiki Page
+{% endblock %}
+
+{% block body %}
+    <h1>New Wiki Page</h1>
+    <hr>
+    <form id="new-page-form">
+        {% csrf_token %}
+        <label for="title">{{ form.title.label }}</label>
+        <input type="text" name="title">
+        
+        <label for="content">{{ form.content.label }}</label>
+        <textarea name="content"></textarea>
+
+        <button type="submit">Add New Page</button>
+    </form>
+{% endblock %}
