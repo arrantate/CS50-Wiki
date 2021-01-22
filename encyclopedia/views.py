@@ -58,7 +58,7 @@ def edit_entry(request, page_title):
             content = form.cleaned_data.get('content')
 
             util.save_entry(title, content)
-            message.success(request, f'Changes saved to {title}')
+            messages.success(request, f'Changes saved to {title}')
 
             return redirect('detail_page', page_title=page_title)
 
@@ -73,7 +73,7 @@ def edit_entry(request, page_title):
 def detail_page(request, page_title):
     entry = util.get_entry(page_title)
     if entry == None:
-        return HttpResponse('No such entry')
+        return render(request, "encyclopedia/no_page.html")
     
     html = markdown(entry)
 
@@ -87,7 +87,7 @@ def detail_page(request, page_title):
 def search(request):
     query = request.POST['query']
     entries = util.list_entries()
-    
+
     match = [entry for entry in entries if query.lower() == entry.lower()]
     if len(match) > 0:
         return redirect('detail_page', page_title=match[0])
